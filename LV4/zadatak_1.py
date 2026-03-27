@@ -19,6 +19,14 @@ y = data[output]
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.25, random_state=1)
 
 # b)
+'''
+fig, ax = plt.subplots(5, 2, sharex='col', sharey='row')
+for i in range(5):
+    for j in range(2):
+        ax[i,j].scatter(X_train[i], y_train, c='Red')
+        ax[i,j].scatter(X_test[i], y_test, c='Blue')
+'''
+
 plt.scatter(X_train['Engine Size (L)'], y_train, c='Red')
 plt.scatter(X_test['Engine Size (L)'], y_test, c='Blue')
 plt.xlabel('Engine Size (L)')
@@ -73,6 +81,6 @@ MAPE = mean_absolute_percentage_error(y_test, y_test_p)
 RMSE = root_mean_squared_error(y_test, y_test_p)
 R_TWO_SCORE = r2_score(y_test, y_test_p)
 
-print(f"MAE: {MAE}, MSE: {MSE}, MAPE: {MAPE}, RMSE: {RMSE}, R2 SCORE: {R_TWO_SCORE}")
+print(f"MAE: {MAE}\n MSE: {MSE}\n MAPE: {MAPE}\n RMSE: {RMSE}\n R2 SCORE: {R_TWO_SCORE}")
 
 # g)
