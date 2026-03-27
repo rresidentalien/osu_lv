@@ -86,3 +86,45 @@ R2 = r2_score(y_test, y_test_p)
 print(f"MAE: {MAE}\n MSE: {MSE}\n MAPE: {MAPE}\n RMSE: {RMSE}\n R2: {R2}")
 
 # g)
+feature_counts = []
+rmse_values = []
+
+for num_features in range(1, len(input_variables) + 1):
+    selected_features = input_variables[:num_features]
+
+    X_train_subset = X_train[selected_features]
+    X_test_subset = X_test[selected_features]
+
+    subset_scaler = MinMaxScaler()
+    X_train_subset_n = subset_scaler.fit_transform(X_train_subset)
+    X_test_subset_n = subset_scaler.transform(X_test_subset)
+
+    subset_model = lm.LinearRegression()
+    subset_model.fit(X_train_subset_n, y_train)
+    y_test_subset_p = subset_model.predict(X_test_subset_n)
+
+    mae_subset = mean_absolute_error(y_test, y_test_subset_p)
+    mse_subset = mean_squared_error(y_test, y_test_subset_p)
+    mape_subset = mean_absolute_percentage_error(y_test, y_test_subset_p)
+    rmse_subset = root_mean_squared_error(y_test, y_test_subset_p)
+    r2_subset = r2_score(y_test, y_test_subset_p)
+
+    feature_counts.append(num_features)
+    rmse_values.append(rmse_subset)
+
+    print(f"Used features: {selected_features}")
+    print(f"MAE: {mae_subset:.4f}")
+    print(f"MSE: {mse_subset:.4f}")
+    print(f"MAPE: {mape_subset:.4f}")
+    print(f"RMSE: {rmse_subset:.4f}")
+    print(f"R2: {r2_subset:.4f}\n")
+
+plt.figure(figsize=(8, 5))
+plt.plot(feature_counts, rmse_values, marker='o')
+plt.xticks(feature_counts)
+plt.xlabel('Number of input features')
+plt.ylabel('RMSE')
+plt.title('g) RMSE vs number of input features')
+plt.grid(True)
+plt.show()
+
