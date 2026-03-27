@@ -19,43 +19,40 @@ y = data[output]
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.25, random_state=1)
 
 # b)
-'''
-fig, ax = plt.subplots(5, 2, sharex='col', sharey='row')
-for i in range(5):
-    for j in range(2):
-        ax[i,j].scatter(X_train[i], y_train, c='Red')
-        ax[i,j].scatter(X_test[i], y_test, c='Blue')
-'''
+fig, ax = plt.subplots(5, 2, figsize=(14, 18), sharey=True)
 
-plt.scatter(X_train['Engine Size (L)'], y_train, c='Red')
-plt.scatter(X_test['Engine Size (L)'], y_test, c='Blue')
-plt.xlabel('Engine Size (L)')
-plt.ylabel('CO2 Emissions (g/km)')
-plt.title('b) Emissions compared to engine size')
+for i, feature in enumerate(input_variables):
+    ax[i, 0].scatter(X_train[feature], y_train, c='Red')
+    ax[i, 0].set_title(f'Train: {feature}')
+    ax[i, 0].set_ylabel('CO2 Emissions (g/km)')
+
+    ax[i, 1].scatter(X_test[feature], y_test, c='Blue')
+    ax[i, 1].set_title(f'Test: {feature}')
+
+ax[4, 0].set_xlabel('Input value')
+ax[4, 1].set_xlabel('Input value')
+fig.suptitle('b) CO2 emissions vs all input variables', fontsize=14)
+plt.tight_layout(rect=[0, 0, 1, 0.98])
 plt.show()
 
 # c)
-plt.hist(X_train['Engine Size (L)'])
-plt.xlabel('Engine Size (L)')
-plt.ylabel('Frequency')
-plt.title('c) Engine size frequency (before scaling)')
-
-'''
-plt.hist(X_train['Cylinders'])
-plt.xlabel('Cylinders')
-plt.ylabel('Frequency')
-plt.title('c) Cylinder frequency (before scaling)')
-'''
-
-plt.show()
-
 sc = MinMaxScaler()
 X_train_n = sc.fit_transform(X_train)
-plt.hist
-plt.hist(X_train_n[:, 0])
-plt.xlabel('Engine Size (L) - scaled')
-plt.ylabel('Frequency')
-plt.title('c) Engine size frequency (after scaling)')
+
+fig, ax = plt.subplots(5, 2, figsize=(14, 18))
+
+for i, feature in enumerate(input_variables):
+    ax[i, 0].hist(X_train[feature], color='Red', alpha=0.7)
+    ax[i, 0].set_title(f'Before scaling: {feature}')
+    ax[i, 0].set_ylabel('Frequency')
+
+    ax[i, 1].hist(X_train_n[:, i], color='Blue', alpha=0.7)
+    ax[i, 1].set_title(f'After scaling: {feature}')
+
+ax[4, 0].set_xlabel('Input value')
+ax[4, 1].set_xlabel('Scaled value')
+fig.suptitle('c) Input variable distributions before and after scaling', fontsize=14)
+plt.tight_layout(rect=[0, 0, 1, 0.98])
 plt.show()
 
 X_test_n = sc.transform(X_test)
