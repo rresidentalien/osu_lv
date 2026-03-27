@@ -76,8 +76,8 @@ MAE = mean_absolute_error(y_test , y_test_p)
 MSE = mean_squared_error(y_test , y_test_p)
 MAPE = mean_absolute_percentage_error(y_test, y_test_p)
 RMSE = root_mean_squared_error(y_test, y_test_p)
-R_TWO_SCORE = r2_score(y_test, y_test_p)
+R2 = r2_score(y_test, y_test_p)
 
-print(f"MAE: {MAE}\n MSE: {MSE}\n MAPE: {MAPE}\n RMSE: {RMSE}\n R2 SCORE: {R_TWO_SCORE}")
+print(f"MAE: {MAE}\n MSE: {MSE}\n MAPE: {MAPE}\n RMSE: {RMSE}\n R2: {R2}")
 
 # g)
