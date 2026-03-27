@@ -66,8 +66,13 @@ print(linearModel.coef_)
 # e)
 y_test_p = linearModel.predict(X_test_n)
 plt.scatter(y_test, y_test_p)
-plt.title("Real values compared to predicted values")
-plt.xlabel("Real values")
+
+line_min = min(y_test.min(), y_test_p.min())
+line_max = max(y_test.max(), y_test_p.max())
+plt.plot([line_min, line_max], [line_min, line_max], 'k--')
+
+plt.title("Comparison of actual and predicted values")
+plt.xlabel("Actual values")
 plt.ylabel("Predicted values")
 plt.show()
 
