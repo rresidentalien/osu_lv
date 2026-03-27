@@ -10,30 +10,44 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolu
 # a)
 data = pd.read_csv('data_C02_emission.csv')
 
-input_variables = ['Engine Size (L)','Cylinders','Fuel Consumption City (L/100km)','Fuel Consumption Hwy (L/100km)','Fuel Consumption Comb (L/100km)','Fuel Consumption Comb (mpg)']
+input_variables = ['Engine Size (L)','Cylinders','Fuel Consumption City (L/100km)','Fuel Consumption Hwy (L/100km)','Fuel Consumption Comb (L/100km)']
 output = 'CO2 Emissions (g/km)'
 
 X = data[input_variables]
 y = data[output]
 
-X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.2, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.25, random_state=1)
 
 # b)
 plt.scatter(X_train['Engine Size (L)'], y_train, c='Red')
 plt.scatter(X_test['Engine Size (L)'], y_test, c='Blue')
 plt.xlabel('Engine Size (L)')
 plt.ylabel('CO2 Emissions (g/km)')
-plt.title('Emissions compared to engine size')
+plt.title('b) Emissions compared to engine size')
 plt.show()
 
 # c)
 plt.hist(X_train['Engine Size (L)'])
+plt.xlabel('Engine Size (L)')
+plt.ylabel('Frequency')
+plt.title('c) Engine size frequency (before scaling)')
+
+'''
+plt.hist(X_train['Cylinders'])
+plt.xlabel('Cylinders')
+plt.ylabel('Frequency')
+plt.title('c) Cylinder frequency (before scaling)')
+'''
+
 plt.show()
 
 sc = MinMaxScaler()
 X_train_n = sc.fit_transform(X_train)
 plt.hist
 plt.hist(X_train_n[:, 0])
+plt.xlabel('Engine Size (L) - scaled')
+plt.ylabel('Frequency')
+plt.title('c) Engine size frequency (after scaling)')
 plt.show()
 
 X_test_n = sc.transform(X_test)
