@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import make_pipeline
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, cross_val_score
 
 def plot_decision_regions(X, y, classifier, resolution=0.02):
     plt.figure()
@@ -82,3 +82,74 @@ plt.title("Tocnost: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p))))
 plt.tight_layout()
 plt.show()
 
+
+# 6.5.1 1)
+knn5 = KNeighborsClassifier(n_neighbors = 5)
+knn5.fit(X_train_n, y_train)
+y_test_p_knn = knn5.predict(X_test_n)
+y_train_p_knn = knn5.predict(X_train_n)
+print("KNN train accuracy: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p_knn))))
+print("KNN test accuracy: " + "{:0.3f}".format((accuracy_score(y_test, y_test_p_knn))))
+plot_decision_regions(X_train_n, y_train, classifier=knn5)
+plt.xlabel('x_1')
+plt.ylabel('x_2')
+plt.legend(loc='upper left')
+plt.title("K = 5 / Tocnost: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p_knn))))
+plt.tight_layout()
+
+# 6.5.1. 2)
+knn1 = KNeighborsClassifier(n_neighbors = 1) 
+knn1.fit(X_train_n, y_train)
+y_train_p_knn1 = knn1.predict(X_train_n)
+plot_decision_regions(X_train_n, y_train, classifier=knn1)
+plt.xlabel('x_1')
+plt.ylabel('x_2')
+plt.legend(loc='upper left')
+plt.title("K = 1 / Tocnost: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p_knn1))))
+plt.tight_layout()
+
+knn100 = KNeighborsClassifier(n_neighbors = 100)
+knn100.fit(X_train_n, y_train)
+y_train_p_knn100 = knn100.predict(X_train_n)
+plot_decision_regions(X_train_n, y_train, classifier=knn100)
+plt.xlabel('x_1')
+plt.ylabel('x_2')
+plt.legend(loc='upper left')
+plt.title("K = 100 / Tocnost: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p_knn100))))
+plt.tight_layout()
+
+plt.show()
+
+# 6.5.2
+scores = cross_val_score(knn5, X_train, y_train, cv =5)
+print(scores)
+param_grid = {'n_neighbors': [10, 100, 100]}
+knn_gscv = GridSearchCV(knn5, param_grid, cv =5, scoring ='accuracy', n_jobs =-1)
+knn_gscv.fit( X_train_n, y_train)
+print(knn_gscv.best_params_)
+print(knn_gscv.best_score_)
+
+# 6.5.3
+SVM_model = svm.SVC(kernel ='rbf', gamma = 1, C = 0.1)
+SVM_model.fit(X_train_n, y_train)
+y_test_p_SVM = SVM_model.predict(X_test_n)
+y_train_p_SVM = SVM_model.predict(X_train_n)
+print("SVM train accuracy: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p_SVM))))
+print("SVM test accuracy: " + "{:0.3f}".format((accuracy_score(y_test, y_test_p_SVM))))
+plot_decision_regions(X_train_n, y_train, classifier=SVM_model)
+plt.xlabel('x_1')
+plt.ylabel('x_2')
+plt.legend(loc='upper left')
+plt.title("SVM / Tocnost: " + "{:0.3f}".format((accuracy_score(y_train, y_train_p_SVM))))
+plt.tight_layout()
+plt.show()
+
+# 6.5.4
+scores = cross_val_score(SVM_model, X_train, y_train , cv =5)
+print(scores)
+param_grid = {'C': [1, 10 , 100 , 100 ],
+            'gamma': [10 , 1, 0.1, 0.01 ]}
+svm_gscv = GridSearchCV(SVM_model, param_grid, cv =5, scoring ='accuracy', n_jobs =-1)
+svm_gscv.fit(X_train_n , y_train)
+print(svm_gscv.best_params_)
+print(svm_gscv.best_score_)
