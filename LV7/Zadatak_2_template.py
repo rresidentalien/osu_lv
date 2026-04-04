@@ -2,9 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as Image
 from sklearn.cluster import KMeans
+from pathlib import Path
 
 # ucitaj sliku
-img = Image.imread("imgs\\test_1.jpg")
+img_path = Path(__file__).resolve().parent / "imgs" / "test_1.jpg"
+img = Image.imread(img_path)
 
 # prikazi originalnu sliku
 plt.figure()
