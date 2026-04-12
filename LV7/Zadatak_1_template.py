@@ -38,13 +38,45 @@ def generate_data(n_samples, flagc):
         
     return X
 
-# generiranje podatkovnih primjera
+# 1
 X = generate_data(500, 1)
-
-# prikazi primjere u obliku dijagrama rasprsenja
 plt.figure()
 plt.scatter(X[:,0],X[:,1])
 plt.xlabel('$x_1$')
 plt.ylabel('$x_2$')
-plt.title('podatkovni primjeri')
+plt.title('Primjer 1')
 plt.show()
+
+X = generate_data(500, 2)
+plt.figure()
+plt.scatter(X[:,0],X[:,1])
+plt.xlabel('$x_1$')
+plt.ylabel('$x_2$')
+plt.title('Primjer 2')
+plt.show()
+
+X = generate_data(500, 3)
+plt.figure()
+plt.scatter(X[:,0],X[:,1])
+plt.xlabel('$x_1$')
+plt.ylabel('$x_2$')
+plt.title('Primjer 3')
+plt.show()
+
+X = generate_data(500, 4)
+plt.figure()
+plt.scatter(X[:,0],X[:,1])
+plt.xlabel('$x_1$')
+plt.ylabel('$x_2$')
+plt.title('Primjer 4')
+plt.show()
+
+X = generate_data(500, 5)
+plt.figure()
+plt.scatter(X[:,0],X[:,1])
+plt.xlabel('$x_1$')
+plt.ylabel('$x_2$')
+plt.title('Primjer 5')
+plt.show()
+
+
