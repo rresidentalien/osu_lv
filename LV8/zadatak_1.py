@@ -2,7 +2,7 @@ import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
 from matplotlib import pyplot as plt
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 # Model / data parameters
@@ -17,7 +17,11 @@ print('Train: X=%s, y=%s' % (x_train.shape, y_train.shape))
 print('Test: X=%s, y=%s' % (x_test.shape, y_test.shape))
 
 # TODO: prikazi nekoliko slika iz train skupa
-
+plt.figure()
+for i in range(5):
+    plt.subplot(1, 5, i+1)
+    plt.imshow(x_train[i])
+plt.show()
 
 # skaliranje slike na raspon [0,1]
 x_train_s = x_train.astype("float32") / 255
@@ -38,20 +42,35 @@ y_test_s = keras.utils.to_categorical(y_test, num_classes)
 
 
 # TODO: kreiraj model pomocu keras.Sequential(); prikazi njegovu strukturu
+model = keras.Sequential()
+model.add(layers.Input(shape=input_shape))
+model.add(layers.Flatten())
+model.add(layers.Dense(1024, activation="relu"))
+model.add(layers.Dense(512, activation="relu"))
+model.add(layers.Dense(256, activation="relu"))
+model.add(layers.Dense(128, activation="relu"))
+model.add(layers.Dense(64, activation="relu"))
+model.add(layers.Dense(num_classes, activation="softmax"))
 
+model.summary()
 
 
 # TODO: definiraj karakteristike procesa ucenja pomocu .compile()
-
+model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy", ])
 
 
 # TODO: provedi ucenje mreze
+batch_size = 32
+epochs = 25
+history = model.fit(x_train_s, y_train_s, batch_size = batch_size, epochs = epochs, validation_split = 0.1)
 
-
+predictions = model.predict(x_test_s)
 
 # TODO: Prikazi test accuracy i matricu zabune
+score = model.evaluate(x_test_s, y_test_s, verbose = 0)
 
-
+ConfusionMatrixDisplay(confusion_matrix(np.argmax(y_test_s, axis=1), np.argmax(predictions, axis=1))).plot()
+plt.show()
 
 # TODO: spremi model
-
+model.save('zadatak_1_model.keras')
