@@ -1,6 +1,6 @@
 import numpy as np
-from tensorflow import keras
-from tensorflow.keras import layers
+import keras
+from keras import layers
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
